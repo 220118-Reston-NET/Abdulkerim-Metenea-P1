@@ -39,17 +39,9 @@ namespace StoreApi.Controllers
         [HttpGet("OrderByStoreLocation")]
         public IActionResult OrderByStorelocation(string location)
         {
-        //   List<Orders> order = new List<Orders>();
-        //    IEnumerable<Orders> sortedOrder = from Orders in order
-        //     orderby Orders.OrderDate ascending, Orders.TotalPrice ascending
-        //     select Orders;
             return Ok(_invBL.ViewStoreFrontOrders(location));
         }
-        // public IEnumerable<string> Get()
-        // {
-        //     return new string[] { "value1", "value2" };
-        // }
-        // POST: api/Inventory
+        
         [HttpPost("AddProduct")]
         public IActionResult Post([FromBody] Products p_product)
         {
@@ -64,8 +56,6 @@ namespace StoreApi.Controllers
             }
         }
 
-
-        // PUT: api/Inventory/5
         [HttpPut("UpdateProduct{id}")]
         public IActionResult Put(int id, [FromBody] Products p_product)
         {
@@ -81,7 +71,6 @@ namespace StoreApi.Controllers
             }
         }
 
-        // DELETE: api/Inventory/5
         [HttpDelete("DeleteProduct{id}")]
         public IActionResult Delete(int ProductId)
         {

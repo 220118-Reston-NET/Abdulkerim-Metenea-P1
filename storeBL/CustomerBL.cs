@@ -71,5 +71,10 @@ namespace storeBL
             _repo.PlaceOrder(p_custId, p_storeId, p_totalprice, p_OrderDate, p_cart);
 
         }
+
+        public void AddUser(UserVerification registorUser)
+        {
+             Console.WriteLine("On Dooing!");
+        }
     }
 }

@@ -1,11 +1,10 @@
 using System.Text.RegularExpressions;
-
 namespace storeModel
 {
-    public class Customer
-    {   public int CustID {get;set;}
+    public class Manager
+    {
         private string _name;
-        public string CustName
+        public string ManagName
         {
             get { return _name; }
             set
@@ -20,9 +19,9 @@ namespace storeModel
                 }
             }
         }
-        public string CustAddress { get; set; }
-        private int _phone ;
-        public int CustPhone
+        public string Address { get; set; }
+        private int _phone;
+        public int Phone
         {
             get { return _phone; }
             set
@@ -37,19 +36,19 @@ namespace storeModel
                 }
             }
         }
-        public string CustEmail { get; set; }
-        public Customer()
-        {   
-            CustID = 0;
-            CustName = "Abdu";
-            CustAddress = " " ;
-            CustPhone = 0;
-            CustEmail = " ";
-           
+        public string Email { get; set; }
+
+        public Manager()
+        {
+            ManagName = "Abel";
+            Address = " ";
+            Phone = 0;
+            Email = " ";
+
         }
         public override string ToString()
         {
-            return $"ID: {CustID}\nName: {CustName}\nAddress: {CustAddress}\nPhoneNumber: {CustPhone}\nEmail : {CustEmail}";
+            return $"Name: {ManagName }\nAddress: {Address}\nPhoneNumber: {Phone}\nEmail : {Email}";
         }
     }
 

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using StoreApi.DataTransferObject;
 // using Microsoft.Extensions.Caching.Memory;
 using storeBL;
 using storeModel;
@@ -81,12 +82,24 @@ namespace StoreApi.Controllers
         }
         
         // POST: api/Customer
-        [HttpPost("Add")]
-        public IActionResult Post([FromBody] Customer p_cust)
+        [HttpPost("Registor")]
+        public IActionResult Registoration([FromBody] Registoration p_cust)
         {
             try
-            {
-                return Created("Scuccessfully Added", _custBL.AddCustomer(p_cust));
+            {   
+                Customer registor = new Customer();
+                registor.CustName = p_cust.CustName;
+                registor.CustPhone = p_cust.CustPhone;
+                registor.CustEmail = p_cust.CustEmail;
+                registor.CustAddress = p_cust.CustAddress;
+
+                _custBL.AddCustomer(registor);
+                UserVerification registorUser = new UserVerification();
+                registorUser.UserName = p_cust.Username;
+                registorUser.Password = p_cust.Password;
+                _custBL.AddUser(registorUser);
+                return Created("Scuccessfully Added",p_cust);
+
             }
             catch (System.Exception ex)
             {

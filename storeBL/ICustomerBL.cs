@@ -15,7 +15,7 @@ namespace storeBL
         List<Orders> OrderHistoryByCustID(int P_CustID);
         List<Orders> OrderHistoryByStoreId(int p_storeId);
         void PlaceOrder(int p_custId, int p_storeId, Decimal p_totalPrice, DateTime p_OrderDate, List<LineItems> p_cart);
-      
+        void AddUser(UserVerification registorUser);
     }
 }
 

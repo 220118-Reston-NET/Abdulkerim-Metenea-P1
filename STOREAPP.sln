@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "storeUI", "storeUI\storeUI.csproj", "{F7A7A6CD-9609-4FD8-8B01-2A69ABC68B00}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "storeModel", "storeModel\storeModel.csproj", "{98BED9C0-3A97-4633-B3EC-C37BC8EA42A5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "storeDL", "storeDL\storeDL.csproj", "{3CD5E12C-8C80-4988-9D55-4972DF044C7B}"
@@ -13,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "storeBL", "storeBL\storeBL.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoreAppApi", "storeappApi\StoreAppApi.csproj", "{4A568031-2EE3-42F1-ABB7-20E6782CF12A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoreAppTest", "storeAppTest\StoreAppTest.csproj", "{E74EABEB-4FDF-4503-8094-65E6D9A0758F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest", "UnitTest\UnitTest.csproj", "{C9465A8C-69BB-4BD7-82EB-5BB089FAFF30}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -48,5 +46,9 @@ Global
 		{E74EABEB-4FDF-4503-8094-65E6D9A0758F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E74EABEB-4FDF-4503-8094-65E6D9A0758F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E74EABEB-4FDF-4503-8094-65E6D9A0758F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9465A8C-69BB-4BD7-82EB-5BB089FAFF30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9465A8C-69BB-4BD7-82EB-5BB089FAFF30}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9465A8C-69BB-4BD7-82EB-5BB089FAFF30}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9465A8C-69BB-4BD7-82EB-5BB089FAFF30}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

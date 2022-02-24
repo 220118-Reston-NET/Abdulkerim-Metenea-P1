@@ -102,7 +102,6 @@ namespace storeDL
                         CustAddress = reader.GetString(2),
                         CustPhone = reader.GetInt32(3),
                         CustEmail = reader.GetString(4),
-                        Orders = OrderHistoryByCustID(reader.GetInt32(0))
 
                     });
                 }
