@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using storeBL;
 using storeModel;
 
-namespace StoreApi.Controllers
+namespace StoreAppApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

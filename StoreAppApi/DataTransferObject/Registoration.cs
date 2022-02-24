@@ -1,6 +1,6 @@
 
 using storeModel;
-namespace StoreApi.DataTransferObject
+namespace StoreAppApi.DataTransferObject
 {
     public class Registoration
     {

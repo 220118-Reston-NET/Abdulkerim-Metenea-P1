@@ -5,12 +5,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using StoreApi.DataTransferObject;
+using StoreAppApi.DataTransferObject;
 // using Microsoft.Extensions.Caching.Memory;
 using storeBL;
 using storeModel;
 
-namespace StoreApi.Controllers
+namespace StoreAppApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
