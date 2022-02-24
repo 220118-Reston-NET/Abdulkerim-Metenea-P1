@@ -3,7 +3,8 @@ using System.Text.RegularExpressions;
 namespace storeModel
 {
     public class Customer
-    {   public int CustID {get;set;}
+    {
+        public int CustID { get; set; }
         private string _name;
         public string CustName
         {
@@ -21,7 +22,7 @@ namespace storeModel
             }
         }
         public string CustAddress { get; set; }
-        private int _phone ;
+        private int _phone;
         public int CustPhone
         {
             get { return _phone; }
@@ -39,18 +40,15 @@ namespace storeModel
         }
         public string CustEmail { get; set; }
         public Customer()
-        {   
+        {
             CustID = 0;
             CustName = "Abdu";
-            CustAddress = " " ;
+            CustAddress = " ";
             CustPhone = 0;
             CustEmail = " ";
-           
+
         }
-        public override string ToString()
-        {
-            return $"ID: {CustID}\nName: {CustName}\nAddress: {CustAddress}\nPhoneNumber: {CustPhone}\nEmail : {CustEmail}";
-        }
+
     }
 
 }

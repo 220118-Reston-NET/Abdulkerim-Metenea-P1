@@ -11,10 +11,7 @@ namespace storeModel
             ProductID = 0;
             Quantity = 0;
         }
-        public override string ToString()
-        {
-            return $"OrderID: {OrderID}\nProductID: {ProductID}\nQuantityt: {Quantity}";
-        }
+       
         
     }
 

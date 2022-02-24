@@ -46,10 +46,7 @@ namespace storeModel
             Email = " ";
 
         }
-        public override string ToString()
-        {
-            return $"Name: {ManagName }\nAddress: {Address}\nPhoneNumber: {Phone}\nEmail : {Email}";
-        }
+
     }
 
 }
