@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\StoreBL\storeBL.csproj" />
+    <ProjectReference Include="..\storeBL\storeBL.csproj" />
     <ProjectReference Include="..\storeDL\storeDL.csproj" />
     <ProjectReference Include="..\storeModel\storeModel.csproj" />
   </ItemGroup>
