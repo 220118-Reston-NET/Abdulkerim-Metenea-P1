@@ -1,9 +1,9 @@
 using System.Collections.Generic;
-using storeModel;
 using Moq;
-using Xunit;
-using storeDL;
 using storeBL;
+using storeDL;
+using storeModel;
+using Xunit;
 
 namespace UnitTest;
 
