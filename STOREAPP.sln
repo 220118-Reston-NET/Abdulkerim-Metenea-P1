@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "storeDL", "storeDL\storeDL.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "storeBL", "storeBL\storeBL.csproj", "{DC9003A3-3354-4BC4-9CF2-D62ADF25BE0D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoreAppApi", "StoreAppApi\StoreAppApi.csproj", "{4A568031-2EE3-42F1-ABB7-20E6782CF12A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoreApi", "StoreApi\StoreAppApi.csproj", "{4A568031-2EE3-42F1-ABB7-20E6782CF12A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest", "UnitTest\UnitTest.csproj", "{C9465A8C-69BB-4BD7-82EB-5BB089FAFF30}"
 EndProject
