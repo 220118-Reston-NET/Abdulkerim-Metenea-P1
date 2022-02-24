@@ -1,0 +1,40 @@
+# In this case, we are telling the Github server should do to be able to deploy our api
+name: Build, Test, and Deploy API
+# below is stating that a deployment will happen when either a push (push:) or pull (pull:) reques i made on the mainbranch 
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+# jobs are multiple things you may want  
+jobs:
+  build:
+    defaults:
+      run:
+        working-directory: ./
+
+    runs-on: ubuntu-latest
+    environment:
+      name: 'Production'
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.101
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --no-restore
+    - name: Test
+      run: dotnet test --no-build
+    - name: Create Publish folder
+      run: dotnet publish -c Release -o publish
+    - name: Deploy
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: AllNeedStore
+        slot-name: 'Production'
+        publish-profile: $${{secrets.AZURE_WEBAPP_PUBLISH_PROFILE}}
+        package: ./publish
