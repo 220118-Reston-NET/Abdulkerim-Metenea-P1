@@ -30,9 +30,11 @@ namespace storeBL
 
         }
         public List<StoreFront> ViewStoreLocation()
-        {
+        {    List<StoreFront> stores = _invetoryRepo.ViewStoreLocation();
+           return stores;
+           
 
-            return _invetoryRepo.ViewStoreLocation();
+            
            
         }
 
@@ -68,9 +70,9 @@ namespace storeBL
             
         }
 
-        public void SubtractQuantity(int p_storeId, int p_productId, int p_quantity)
+        public void SubtractQuantity(Orders p_order)
         {
-          _invetoryRepo.SubtractQuantity(p_storeId, p_productId, p_quantity);
+          _invetoryRepo.SubtractQuantity(p_order);
         }
 
         //||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
@@ -111,31 +113,6 @@ namespace storeBL
             
         }
         
-        public List<Products> DeleteProductById(int productId)
-        {
-            List<Products> listPorduct = _invetoryRepo.DeleteProductById(productId);
-            return listPorduct.Where(p => p.ProductID == productId).ToList();
-        }
-        //////////////////////////////////////////////////////////////////////////////////////
-        /////////////                         LineItems                       ////////////////
-        /// //////////////////////////////////////////////////////////////////////////////////
-        public List<LineItems> GetAllineItems()
-        {
-            return _invetoryRepo.GetAllineItems();
-        }
-        public List<LineItems> GetLineItemsByOrderID(int p_OrderID)
-        {
-            List<LineItems> ItemList = _invetoryRepo.GetLineItemsByOrderID(p_OrderID);
-            return ItemList.Where(p => p.OrderID == p_OrderID).ToList();
-        }
-
-        public List<LineItems> ReduceQuantity(int productId, int quantity)
-        {
-            List<LineItems> updatedQuantity = _invetoryRepo.ReduceQuantity(productId, quantity);
-            return updatedQuantity
-            .Where(p => p.ProductID == productId && p.Quantity == quantity)
-            .ToList();
-        }
 
         
     }

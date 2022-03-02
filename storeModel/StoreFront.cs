@@ -9,9 +9,10 @@ namespace storeModel
         public List<Products> Products { get; set; }
         public List<Orders> Orders { get; set; }
         public StoreFront()
-        {
-            StoreName = "NewTech";
-            StoreAddress = "22 st somewher";
+        {   
+            StoreID = 0;
+            StoreName = "";
+            StoreAddress = "";
             Products = new List<Products>() { new Products() };
             Orders = new List<Orders>() { new Orders() };
         }

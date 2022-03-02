@@ -2,21 +2,28 @@ using System.Text.RegularExpressions;
 
 namespace storeModel
 {
-    public class Customer
+    public class CustomerDetail
     {
         public int CustID { get; set; }
+        private string _name;
         public string CustName { get; set; }
+    
         public string CustAddress { get; set; }
-        public string CustPhone  {get;set;}
+        private string _phone;
+        public string CustPhone { get; set; }
         public string CustEmail { get; set; }
+        public string Username { get; set; }
+        public string Password { get; set; }
         // public List<Orders>  Orders {get;set;}
-        public Customer()
+        public CustomerDetail()
         {
-            CustID =0;
+            CustID = 0;
             CustName = " ";
             CustAddress = " ";
             CustPhone = "";
             CustEmail = " ";
+            Username = "";
+            Password = "";
             // CustOrders = new List<Orders>(){new Orders()};
 
 
@@ -25,3 +32,4 @@ namespace storeModel
     }
 
 }
+

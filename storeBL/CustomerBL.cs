@@ -1,5 +1,6 @@
-
-// using System.Linq;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using storeDL;
 using storeModel;
 namespace storeBL
@@ -7,15 +8,16 @@ namespace storeBL
     public class CustomerBL : ICustomerBL
     {
         //Dependency Injection Pattern
+        private IInventoryRepo _invrepo;
         private ICustomerRepo _repo;
-        public CustomerBL(ICustomerRepo p_repo )
+        public CustomerBL(ICustomerRepo p_repo  )
         {
             _repo = p_repo;
         }
         public List<Customer> GetAllCustomer()
         {
-            List<Customer> ListOfCustomer = _repo.GetAllCustomer();
-            return ListOfCustomer;
+            return _repo.GetAllCustomer();
+            
         }
         public Customer AddCustomer(Customer p_Cust)
         {
@@ -42,39 +44,51 @@ namespace storeBL
             List<Customer> listcustomer = _repo.GetCustomerByID(p_custId);
             return listcustomer.Where(p=>p.CustID == p_custId).ToList();
         }
-        public Customer UpdateCustomer(Customer p_Cust)
-        {
-            return _repo.UpdateCustomer(p_Cust);
-        }
+        
         //\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
         ///
         ///                               Orders
         /// \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
         public List<Orders> GetAllOrders()
         {
-            List<Orders> ListOfOrders = _repo.GetAllOrders();
-            return ListOfOrders;
+            return _repo.GetAllOrders();
         }
         public List<Orders> OrderHistoryByCustID(int p_CustID)
         {
-            List<Orders> CustomerOrder = _repo.OrderHistoryByCustID(p_CustID);
-            return CustomerOrder.Where(p => p.CustID == p_CustID).ToList();       
+           List<Orders> listOrders = _repo.OrderHistoryByCustID(p_CustID);
+           return listOrders.FindAll(p=>p.CustID ==p_CustID).ToList();   
+               
         }
         public List<Orders> OrderHistoryByStoreId(int p_storeId)
         {
-            List<Orders> storeOrderlist = _repo.OrderHistoryByStoreId(p_storeId);
-            return storeOrderlist.Where(p=>p.StoreID==p_storeId).ToList();
-        }
+           return _repo.OrderHistoryByStoreId(p_storeId);
 
-        public void PlaceOrder(int p_custId, int p_storeId, Decimal p_totalprice, DateTime p_OrderDate, List<LineItems> p_cart)
+        }
+        public Orders PlaceOrder(Orders P_order)
         {
-            _repo.PlaceOrder(p_custId, p_storeId, p_totalprice, p_OrderDate, p_cart);
+            return _repo.PlaceOrder(P_order); ;
 
         }
-
-        public void AddUser(UserVerification registorUser)
+        //////////////////////////////////////////////////////////////////////////////////////
+        /////////////                         LineItems                       ////////////////
+        /// //////////////////////////////////////////////////////////////////////////////////
+        public List<LineItems> GetAllLineItems()
         {
-             Console.WriteLine("On Dooing!");
+            return _repo.GetAllineItems();
         }
+        public List<LineItems> GetLineItemsByOrderID(int p_OrderID)
+        {
+            List<LineItems> ItemList = _repo.GetLineItemsByOrderID(p_OrderID);
+            return ItemList.FindAll(p => p.OrderID == p_OrderID).ToList();
+        }
+
+        public List<LineItems> ReduceQuantity(int productId, int quantity)
+        {
+            List<LineItems> updatedQuantity = _repo.ReduceQuantity(productId, quantity);
+            return updatedQuantity
+            .Where(p => p.ProductID == productId && p.Quantity == quantity)
+            .ToList();
+        }
+        
     }
 }

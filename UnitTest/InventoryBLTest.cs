@@ -59,5 +59,22 @@ public class InventoryBLTest
         Assert.Equal(productId, actualListOfProduct[0].ProductID);
 
     }
-
+    [Theory]
+    [InlineData(-11)]
+    [InlineData(-90)]
+    [InlineData(-1567)]
+    [InlineData(-1)]
+    [InlineData(-00222)]
+    [InlineData(-3)]
+    [InlineData(-191)]
+    [InlineData(-02)]
+    [InlineData(-1128773)]
+    public void invalidQuantity(int p_quantity) // Should 
+    {
+        //Arrange
+        Inventory _cust = new Inventory();
+        //Act & Assert
+        Assert.Throws<System.Exception>(() => _cust.Quantity = p_quantity
+        );
+    }
 }

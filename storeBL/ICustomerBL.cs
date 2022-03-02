@@ -7,15 +7,21 @@ namespace storeBL
         List<Customer> GetAllCustomer();
         List<Customer>  SearchCustomer(string name);
         List<Customer> GetCustomerByID(int p_custId);
-        Customer UpdateCustomer(Customer p_Cust);
         ////////////////////////////////////////////////////////////////////////
         /////////////            Orders                 /////////////////////////
         ////////////////////////////////////////////////////////////////////////
         List<Orders> GetAllOrders();
         List<Orders> OrderHistoryByCustID(int P_CustID);
         List<Orders> OrderHistoryByStoreId(int p_storeId);
-        void PlaceOrder(int p_custId, int p_storeId, Decimal p_totalPrice, DateTime p_OrderDate, List<LineItems> p_cart);
-        void AddUser(UserVerification registorUser);
+        Orders PlaceOrder(Orders P_order);
+        // List<Orders> GetOrderDetailsByOrderId(int p_orderId);
+        // void AddUser(User registorUser);
+        ///////      LineItems     //////////////////
+        /// /////////////////////////////////////////
+        List<LineItems> GetAllLineItems();
+        List<LineItems> GetLineItemsByOrderID(int p_OrderID);
+        List<LineItems> ReduceQuantity(int productId, int quantity);
+
     }
 }
 

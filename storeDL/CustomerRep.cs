@@ -5,12 +5,13 @@ namespace storeDL
 {
     public class CustomerRepo : ICustomerRepo
     {
+        private IInventoryRepo _iInventoryRepo;
         private readonly string _connectionString;
         public CustomerRepo(string p_connectionString)
         {
             _connectionString = p_connectionString;
         }
-        private InventoryRepo _storeRepo;
+        
         public Customer AddCustomer(Customer p_Cust)
         {
             string sqlQuery = @"insert into Customer 
@@ -46,8 +47,8 @@ namespace storeDL
                         CustID = reader.GetInt32(0),
                         CustName = reader.GetString(1),
                         CustAddress = reader.GetString(2),
-                        CustPhone = reader.GetInt32(3),
-                        CustEmail = reader.GetString(4)
+                        CustPhone = reader.GetString(3),
+                        CustEmail = reader.GetString(4),
                     });
                 }
             }
@@ -73,7 +74,7 @@ namespace storeDL
                         CustID = reader.GetInt32(0),
                         CustName = reader.GetString(1),
                         CustAddress = reader.GetString(2),
-                        CustPhone = reader.GetInt32(3),
+                        CustPhone = reader.GetString(3),
                         CustEmail = reader.GetString(4)
 
                     });
@@ -100,7 +101,7 @@ namespace storeDL
                         CustID = reader.GetInt32(0),
                         CustName = reader.GetString(1),
                         CustAddress = reader.GetString(2),
-                        CustPhone = reader.GetInt32(3),
+                        CustPhone = reader.GetString(3),
                         CustEmail = reader.GetString(4),
 
                     });
@@ -109,24 +110,6 @@ namespace storeDL
 
             return P_Cust;
         }
-        public Customer UpdateCustomer(Customer p_Cust)
-        {
-            string sqlQuery = @"UPDATE StoreApp.dbo.Customer SET CustName= @CustName, CustAddress=@CustAddress,CustPhone=@CustPhone, CustEmail=@CustEmail  WHERE CustID= @CustID";
-            using (SqlConnection con = new SqlConnection(_connectionString))
-            {
-                con.Open();
-                SqlCommand command = new SqlCommand(sqlQuery, con);
-                command.Parameters.AddWithValue("@CustID", p_Cust.CustID);
-                command.Parameters.AddWithValue("@CustName", p_Cust.CustName);
-                command.Parameters.AddWithValue("@CustAddress", p_Cust.CustAddress);
-                command.Parameters.AddWithValue("@CustPhone", p_Cust.CustPhone);
-                command.Parameters.AddWithValue("@CustEmail", p_Cust.CustEmail);
-
-                command.ExecuteNonQuery();
-            }
-
-            return p_Cust;
-        }
 
         //|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
         //                             Orders
@@ -134,6 +117,7 @@ namespace storeDL
         public List<Orders> GetAllOrders()
         {
             List<Orders> ListOfOrders = new List<Orders>();
+            
             string sqlQuery = @"select * from Orders";
             using (SqlConnection con = new SqlConnection(_connectionString))
             {
@@ -148,7 +132,8 @@ namespace storeDL
                         CustID = reader.GetInt32(1),
                         StoreID = reader.GetInt32(2),
                         TotalPrice = reader.GetDecimal(3),
-                        OrderDate = reader.GetDateTime(4)
+                        OrderDate = reader.GetDateTime(4),
+                        ShopingCart = GetLineItemsByOrderID(reader.GetInt32(0))
                     });
                 }
             }
@@ -157,8 +142,10 @@ namespace storeDL
         public List<Orders> OrderHistoryByCustID(int P_CustID)
         {
             List<Orders> ListOfOrders = new List<Orders>();
-               
-            string sqlQuery = @"select o.OrderID,o.CustID,o.StoreID,o.TotalPrice,o.OrderDate from Orders o inner join Customer c
+            // List<LineItems> Cart = new List<LineItems>();
+            
+           
+            string sqlQuery = @"select o.OrderID,o.CustID,o.StoreID, o.TotalPrice,o.OrderDate from Orders o inner join Customer c
                              on o.CustID = c.CustID inner join LineItems li on o.OrderID = li.OrderID where o.CustID = @CustID Order By OrderDate ASC";
             using (SqlConnection con = new SqlConnection(_connectionString))
             {
@@ -168,7 +155,8 @@ namespace storeDL
                 SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-
+                  
+                  
                     ListOfOrders.Add(new Orders()
                     {
                         OrderID = reader.GetInt32(0),
@@ -176,79 +164,183 @@ namespace storeDL
                         StoreID = reader.GetInt32(2),
                         TotalPrice = reader.GetDecimal(3),
                         OrderDate = reader.GetDateTime(4),
-
+                        ShopingCart = GetLineItemsByOrderID(reader.GetInt32(0))
+                        
+                       
                     });
-                   
-                    
+
+                    // foreach (var order in ListOfOrders)
+                    // {
+                    //     foreach (var item in order.ShopingCart)
+                    //     {
+                    //         order.TotalPrice += _iInventoryRepo.SearchProduct(item.ProductID).First().Price * item.Quantity;
+                    //     }
+                    // }
 
                 }
-                // foreach (var item in ListOfOrders)
-                // {
-                //     int orderId = item.OrderID;
-                //     item.LineItems = _storeRepo.GetLineItemsByOrderID(orderId);
-                // };
+
+               
+                
+                return ListOfOrders;
+
             }
-            return ListOfOrders;
+
+           
         }
+        public Decimal ShopTotalPrice(List<LineItems> ShopingCart)
+        {
+            decimal _totalprice = 0m;
+            foreach (var item in ShopingCart)
+            {
+                _totalprice += item.Quantity * _iInventoryRepo.GetAllProduct().Find(p => p.ProductID.Equals(item.ProductID)).Price;
+            }
+            return _totalprice;
+
+        }
+         
+       
+       
+
         public List<Orders> OrderHistoryByStoreId(int p_storeId)
         {
-            List<Orders> ListOrders = new List<Orders>();
+            List<Orders> _listOrders = new List<Orders>();
+
+            LineItems items = new LineItems();
+            decimal ItemTotalPrice = _iInventoryRepo.SearchProduct(items.ProductID).First().Price * items.Quantity;
             string sqlQuery = @"Select * from Orders Where StoreID=@StoreID Order By OrderDate DESC , TotalPrice DESC";
-            using(SqlConnection con = new SqlConnection(_connectionString))
+            using (SqlConnection con = new SqlConnection(_connectionString))
             {
                 con.Open();
-                SqlCommand command = new SqlCommand(sqlQuery,con);
-                command.Parameters.AddWithValue("@StoreID",p_storeId);
+                SqlCommand command = new SqlCommand(sqlQuery, con);
+                command.Parameters.AddWithValue("@StoreID", p_storeId);
                 SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    ListOrders.Add(new Orders
+                    _listOrders.Add(new Orders
                     {
                         OrderID = reader.GetInt32(0),
                         CustID = reader.GetInt32(1),
                         StoreID = reader.GetInt32(2),
-                        TotalPrice = reader.GetDecimal(3),
+                        TotalPrice = ItemTotalPrice,
                         OrderDate = reader.GetDateTime(4)
-                        
+
                     });
+                    
                 }
+                
+                
             }
-            return ListOrders;
+            return _listOrders;
+         
         }
-        
-
-        public void PlaceOrder(int p_custId, int p_storeId, Decimal p_totalprice, DateTime p_Orderdate, List<LineItems> p_cart)
+        public Orders PlaceOrder(Orders p_order)
         {
-
-            string OrdersqlQuery = @"insert into Orders values(@CustID,@StoreID,@TotalPrice,@OrderDate); select scope_Identity();";
+           
+            string OrdersqlQuery = @"insert into Orders values(@CustID,@StoreID,@TotalPrice,@Orderdate); select scope_Identity();";
             string ItemsqlQuery = @"insert into LineItems values(@OrderID,@ProductID,@Quantity)";
-            _storeRepo = new InventoryRepo(_connectionString);
+            _iInventoryRepo= new InventoryRepo(_connectionString);
 
             using (SqlConnection con = new SqlConnection(_connectionString))
             {
                 con.Open();
                 SqlCommand command = new SqlCommand(OrdersqlQuery, con);
-                command.Parameters.AddWithValue("@CustID", p_custId);
-                command.Parameters.AddWithValue("@StoreID", p_storeId);
-                command.Parameters.AddWithValue("@TotalPrice", p_totalprice);
-                command.Parameters.AddWithValue("@OrderDate", p_Orderdate);
+                command.Parameters.AddWithValue("@CustID", p_order.CustID);
+                command.Parameters.AddWithValue("@StoreID", p_order.StoreID);
+                command.Parameters.AddWithValue("@TotalPrice", p_order.TotalPrice);
+                command.Parameters.AddWithValue("@OrderDate",DateTime.Now);
                 int OrderID = Convert.ToInt32(command.ExecuteScalar());
 
 
-                foreach (var item in p_cart)
+                foreach (var item in p_order.ShopingCart)
                 {
                     SqlCommand command2 = new SqlCommand(ItemsqlQuery, con);
-                    command2.Parameters.AddWithValue("@OrderID", OrderID);
+                    command2.Parameters.AddWithValue("@OrderID", OrderID++);
                     command2.Parameters.AddWithValue("@ProductID", item.ProductID);
                     command2.Parameters.AddWithValue("@Quantity", item.Quantity);
                     command2.ExecuteNonQuery();
-                    _storeRepo.SubtractQuantity(p_storeId, item.ProductID, item.Quantity);
-
+                    _iInventoryRepo.SubtractQuantity(p_order);
+                  
                 }
 
 
             }
+            return p_order;
 
+        }
+        //\//////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////              LlineItems                     ///////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////////////////
+        public List<LineItems> GetLineItemsByOrderID(int p_OrderID)
+        {
+            List<LineItems> ShopingCart = new List<LineItems>();
+            string sqlQuery = @"Select ProductID , Quantity  from LineItems  Where OrderID = @OrderID";
+
+            using (SqlConnection con = new SqlConnection(_connectionString))
+            {
+                con.Open();
+                SqlCommand command = new SqlCommand(sqlQuery, con);
+                command.Parameters.AddWithValue("@OrderID", p_OrderID);
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    ShopingCart.Add(new LineItems()
+                    {   
+                        OrderID = p_OrderID,
+                        ProductID = reader.GetInt32(0),
+                        Quantity = reader.GetInt32(1)
+                    });
+                }
+            }
+
+            return ShopingCart;
+        }
+        public List<LineItems> GetAllineItems()
+        {
+            List<LineItems> ListItems = new List<LineItems>();
+            string sqlQuery = @"select * from LineItems";
+            using (SqlConnection con = new SqlConnection(_connectionString))
+            {
+                con.Open();
+                SqlCommand command = new SqlCommand(sqlQuery, con);
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    ListItems.Add(new LineItems()
+                    {
+                        OrderID = reader.GetInt32(0),
+                        ProductID = reader.GetInt32(1),
+                        Quantity = reader.GetInt32(2)
+
+                    });
+                }
+            }
+
+            return ListItems;
+        }
+        public List<LineItems> ReduceQuantity(int productId, int quantity)
+        {
+            List<LineItems> ListOfineItems = new List<LineItems>();
+            string sqlQuery = @" Update LineItems set Quantity = Quantity - @Quantity where ProductID = @ProductID";
+            using (SqlConnection con = new SqlConnection(_connectionString))
+            {
+                con.Open();
+                SqlCommand command = new SqlCommand(sqlQuery, con);
+                command.Parameters.AddWithValue("ProductID", productId);
+                command.Parameters.AddWithValue("Quantity", quantity);
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    ListOfineItems.Add(new LineItems()
+                    {
+                        OrderID = reader.GetInt32(0),
+                        ProductID = reader.GetInt32(1),
+                        Quantity = reader.GetInt32(2)
+
+                    });
+                }
+            }
+
+            return ListOfineItems;
         }
 
     }

@@ -14,7 +14,7 @@ public class CustomerBLTest
     {
         //Arrange
         string Name = "Abdu";
-        int Phone = 1223034444;
+        string Phone = "1223034444";
         Customer _cust = new Customer()
         {
             CustName = Name,

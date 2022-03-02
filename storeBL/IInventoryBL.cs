@@ -11,7 +11,7 @@ namespace storeBL
         List<Inventory> GetAllInventoryBYStoreId(int p_storeId);
         List<Inventory> GetAllInventory();
         List<Inventory> AddProductQuantity(int p_storeId, int p_productId, int p_quantity);
-        void SubtractQuantity(int p_storeId, int p_productId, int p_quantity);
+        void SubtractQuantity(Orders p_order);
         List<Products> GetAllProductByStoreId(int p_storeId);
         //||||||||||//////////////////////////////////////////
         //            Products
@@ -20,12 +20,6 @@ namespace storeBL
         Products AddProduct(Products p_product);
         List<Products> SearchProduct(int p_productId);
         Products UpdateProduct(Products p_product);
-        List<Products> DeleteProductById(int productId);
-        ///////      LineItems     //////////////////
-        /// /////////////////////////////////////////
-        List<LineItems> GetAllineItems();
-        List<LineItems> GetLineItemsByOrderID(int p_OrderID);
-        List<LineItems> ReduceQuantity(int productId, int quantity);
         
     }
 }
