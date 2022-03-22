@@ -49,6 +49,7 @@
   </ui>
                   
   <h3 id="status">Status</h3>
-   <p>In Progress ...</p>
+   <p>Done</p>
   <h3 id="contact">Contact</h3>
-  <p>Created By &#9400;Revature.com/ Abdulkerim Metenea</p>
+  <p>Created By &#9400; 2022 220118-Reston-NET/Abdulkerim-Metenea-P1</p>
+                
